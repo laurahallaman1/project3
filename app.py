@@ -65,18 +65,20 @@ def sample_metadata(iso_code):
     results = db.session.query(*sel).filter(Freedom_short.iso_code == iso_code).all()
 
     # Create a dictionary entry for each row of metadata information
-    freedom_sdata = {}
+    freedom_sdata_list = []
     for result in results:
+        freedom_sdata = {}
         freedom_sdata["iso_code"] = result[0]
         freedom_sdata["year"] = result[1]
         freedom_sdata["country"] = result[2]
         freedom_sdata["region"] = result[3]
-        freedom_sdata["hf_score"] = result[4]
-        freedom_sdata["hf_rank"] = result[5]
+        freedom_sdata["hf_score"] = str(result[4])
+        freedom_sdata["hf_rank"] = str(result[5])
         freedom_sdata["hf_quartile"] = result[6]
+        freedom_sdata_list.append(freedom_sdata)    
 
-    print(freedom_sdata)
-    return jsonify(freedom_sdata)
+    print(freedom_sdata_list)
+    return jsonify(freedom_sdata_list)
 
 if __name__ == "__main__":
     app.run()
