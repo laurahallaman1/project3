@@ -15,8 +15,13 @@
     line-height: 1.8;
     color: #f5f6f7;
   }
-  p {font-size: 16px;}
-  .margin {margin-bottom: 45px;}
+  p {
+    font-size: 16px;
+  }
+
+  .margin {
+    margin-bottom: 45px;
+  }
   .bg-1 { 
     background-color: #ffde59; 
     color: #ffffff;
@@ -41,4 +46,19 @@
     height: 400px;
     padding: 20px;
     color: #fff;
+  }
+  .navbar{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+
+  }
+  .navbar-brand{
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+  
+    }
+  .navbar-toggler{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px
+
   }
