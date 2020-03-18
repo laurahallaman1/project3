@@ -1,5 +1,21 @@
 //app.js
-function buildMetadata(sample) {
+function buildMetadata(iso_code) {
+  var meta_url = `/metadata/${iso_code}`;
+  console.log(meta_url);
+  var meta_data = d3.json(meta_url).then(function(data) {
+    // Use d3 to select the panel with id of `#iso_code-metadata`
+    var metaPanel = d3.select("#iso-code-metadata");
+    metaPanel.html("");
+    console.log(data);
+    Object.entries(data).forEach(function([key, value]) {
+      // Append a cell to the row for each value
+      // in the weather report object
+      var key_value = `${key}:  ${value}`;
+      var para = metaPanel.append("p");
+      para.text(key_value);
+    })
+  
+  });  
 
   
 }

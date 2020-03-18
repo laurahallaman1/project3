@@ -85,7 +85,7 @@ def sample_metadata(iso_code):
         Freedom_short.hf_quartile,
     ]
 
-    results = db.session.query(*sel).filter(Freedom_short.iso_code == iso_code).all()
+    results = db.session.query(*sel).filter(Freedom_short.iso_code == iso_code,Freedom_short.year == 2017).all()
 
     # Create a dictionary entry for each row of metadata information
     freedom_sdata_list = []
@@ -101,7 +101,7 @@ def sample_metadata(iso_code):
         freedom_sdata_list.append(freedom_sdata)    
 
     print(freedom_sdata_list)
-    return jsonify(freedom_sdata_list)
+    return jsonify(freedom_sdata_list[0])
 
 if __name__ == "__main__":
     app.run()
