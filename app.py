@@ -38,7 +38,7 @@ def index():
 
 
 @app.route("/freedom_columns")
-def names():
+def freedom_columns():
     """Return a list of sample names."""
 
     # Use Pandas to perform the sql query
@@ -47,6 +47,29 @@ def names():
 
     # Return a list of the column names (sample names)
     return jsonify(list(df.columns)[2:])
+
+@app.route("/country_codes")
+def country_codes():
+    """Return a list of sample names."""
+
+    iso_sel = [
+        Freedom_short.iso_code,
+        Freedom_short.year,
+        Freedom_short.country,
+        Freedom_short.region,
+        Freedom_short.hf_score,
+        Freedom_short.hf_rank,
+        Freedom_short.hf_quartile,
+    ]
+
+    # Use Pandas to perform the sql query
+    #Grab 2017 Data Only for Dropdown
+    codes_stmt = db.session.query(*iso_sel).filter(Freedom_short.year == 2017).order_by(Freedom_short.iso_code).statement
+    codes_df = pd.read_sql_query(codes_stmt, db.session.bind)
+
+    # Return a list of the column names (sample names)
+    return jsonify(list(codes_df["iso_code"]))
+
 
 
 @app.route("/metadata/<iso_code>")
