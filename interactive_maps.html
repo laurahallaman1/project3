@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Happiness Index</title>
+<!-- Bring in our bootstrap stylesheet -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!--Header-->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgb(195, 93, 204);">
+    <a class="navbar-brand" href="project_html.html">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active"> 
+          <a class="nav-link" href="heat_visual.html">Heat Map <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="interactive_maps.html">Interactive Map</a>
+        </li>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <script src="https://d3js.org/d3.v4.js"></script>
+
+<body style="background-color:powderblue;">
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+
+// Dimension of the whole chart. Only one size since it has to be square
+var marginWhole = {top: 10, right: 10, bottom: 10, left: 10},
+    sizeWhole = 2000- marginWhole.left - marginWhole.right
+
+// Create the svg area
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", sizeWhole  + marginWhole.left + marginWhole.right)
+    .attr("height", sizeWhole  + marginWhole.top + marginWhole.bottom)
+  .append("g")
+    .attr("transform", "translate(" + marginWhole.left + "," + marginWhole.top + ")");
+
+
+d3.csv("https://raw.githubusercontent.com/laurahallaman1/project3/master/fulldata.csv", function(data) {
+
+  // What are the numeric variables in this dataset? How many do I have
+  var allVar = ["Happiness_score","pf_rol","pf_ss","pf_movement","pf_religion","pf_association","pf_expression","pf_identity","ef_government","ef_legal","ef_money","ef_trade","ef_regulation","Unemployment","Hours"]
+  var numVar = allVar.length
+
+  // Now I can compute the size of a single chart
+  mar = 20
+  size = sizeWhole / numVar
+
+
+  // ----------------- //
+  // Scales
+  // ----------------- //
+
+  // Create a scale: gives the position of each pair each variable
+  var position = d3.scalePoint()
+    .domain(allVar)
+    .range([0, sizeWhole-size])
+
+  // Color scale: give me a specie name, I return a color
+  
+
+
+  // ------------------------------- //
+  // Add charts
+  // ------------------------------- //
+  for (i in allVar){
+    for (j in allVar){
+
+      // Get current variable name
+      var var1 = allVar[i]
+      var var2 = allVar[j]
+
+      // If var1 == var2 i'm on the diagonal, I skip that
+      if (var1 === var2) { continue; }
+
+      // Add X Scale of each graph
+      xextent = d3.extent(data, function(d) { return +d[var1] })
+      var x = d3.scaleLinear()
+        .domain(xextent).nice()
+        .range([ 0, size-2*mar ]);
+
+      // Add Y Scale of each graph
+      yextent = d3.extent(data, function(d) { return +d[var2] })
+      var y = d3.scaleLinear()
+        .domain(yextent).nice()
+        .range([ size-2*mar, 0 ]);
+
+      // Add a 'g' at the right position
+      var tmp = svg
+        .append('g')
+        .attr("transform", "translate(" + (position(var1)+mar) + "," + (position(var2)+mar) + ")");
+
+      // Add X and Y axis in tmp
+      tmp.append("g")
+        .attr("transform", "translate(" + 0 + "," + (size-mar*2) + ")")
+        .call(d3.axisBottom(x).ticks(3));
+      tmp.append("g")
+        .call(d3.axisLeft(y).ticks(3));
+
+      // Add circle
+      tmp
+        .selectAll("myCircles")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d){ return x(+d[var1]) })
+          .attr("cy", function(d){ return y(+d[var2]) })
+          .attr("r", 3)
+          .attr("fill", "navy")
+    }
+  }
+
+
+  // ------------------------------- //
+  // Add variable names = diagonal
+  // ------------------------------- //
+  for (i in allVar){
+    for (j in allVar){
+      // If var1 == var2 i'm on the diagonal, otherwisee I skip
+      if (i != j) { continue; }
+      // Add text
+      var var1 = allVar[i]
+      var var2 = allVar[j]
+      svg
+        .append('g')
+        .attr("transform", "translate(" + position(var1) + "," + position(var2) + ")")
+        .append('text')
+          .attr("x", size/2)
+          .attr("y", size/2)
+          .text(var1)
+          .attr("text-anchor", "middle")
+
+    }
+  }
+
+
+})
+</script>
+</body>
