@@ -41,6 +41,23 @@
       <p>Subtext</p>
       <p></p>
       <p><a class="btn btn-primary btn-sm" href="#" role="button">Link to Study</a></p>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well">
+            <h5>SELECT Country Code:</h5>
+            <select id="selDataset" onchange="optionChanged(this.value)"></select>
+          </div>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Happiness Index</h3>
+            </div>
+            <div id="iso-code-metadata" class="panel-body"></div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div id="gauge"></div>
+        </div>
+      </div>
     </div>
     
     <div class="container-fluid bg-2 text-center">
@@ -54,6 +71,8 @@
     
     </div> 
   </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
