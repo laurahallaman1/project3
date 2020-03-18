@@ -49,16 +49,23 @@
   }
   .navbar{
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
+    color: #2f2f2f;
 
   }
   .navbar-brand{
       font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
+      font-size: 20px;
+      color: #2f2f2f;
   
     }
   .navbar-toggler{
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px
+    font-size: 20px;
+    color: #2f2f2f 
 
+  }
+  .button{
+    background-color: #2caead;
+    color: #2f2f2f
   }
