@@ -1,4 +1,4 @@
-,Country,Happiness_score,pf_rol,pf_ss,pf_movement,pf_religion,pf_association,pf_expression,pf_identity,ef_government,ef_legal,ef_money,ef_trade,ef_regulation,Country_Code,2017,Hours
+,Country,Happiness_score,pf_rol,pf_ss,pf_movement,pf_religion,pf_association,pf_expression,pf_identity,ef_government,ef_legal,ef_money,ef_trade,ef_regulation,Country_Code,Unemployment,Hours
 0,Finland,7.769,8.6,9.8,10,7.9,10,9.7,9,4.7,8.8,9.4,8.2,7.9,FIN,8.640000343,
 1,Denmark,7.6,8.7,9.8,10,7.7,9.5,8.9,10,4.7,8.1,9.8,8.5,8.4,DNK,5.743000031,
 2,Norway,7.554,8.6,9.9,10,7.4,10,9.8,9.2,4.9,8.5,9.6,7.6,7.6,NOR,4.162000179,34
